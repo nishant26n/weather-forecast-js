@@ -191,6 +191,31 @@ td > img {
   margin-left: 9px;
 }
 
+.forecast-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.forecast-1,
+.forecast-2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forecast-container h3,
+h4 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.forecast-temp-1,
+.forecast-temp-2 {
+  margin: 1rem 0 1rem 0;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 800px) {
   .panel,

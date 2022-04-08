@@ -14,6 +14,15 @@ const search = document.querySelector(".search");
 const btn = document.querySelector(".submit");
 const cities = document.querySelectorAll(".city");
 
+const forecastDate1 = document.querySelector(".forecast-date-1");
+const forecastDate2 = document.querySelector(".forecast-date-2");
+const forecastTemp1 = document.querySelector(".forecast-temp-1");
+const forecastTemp2 = document.querySelector(".forecast-temp-2");
+const weather1 = document.querySelector(".weather-1");
+const weather2 = document.querySelector(".weather-2");
+const icon1 = document.querySelector(".icon-1");
+const icon2 = document.querySelector(".icon-2");
+
 // Default value
 let cityInput = "Delhi";
 
@@ -52,7 +61,7 @@ function dayOfTheWeek(month, day, year) {
 
 function fetchWeatherData() {
   fetch(
-    `http://api.weatherapi.com/v1/forecast.json?key=4006ca1796cf465980b133133223001&q=${cityInput}`
+    `http://api.weatherapi.com/v1/forecast.json?key=4006ca1796cf465980b133133223001&q=${cityInput}&days=5`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -149,6 +158,28 @@ function fetchWeatherData() {
         }
       }
       app.style.opacity = "1";
+
+      //Forecasting
+      forecastDate1.innerHTML = data.forecast.forecastday[1].date;
+      forecastDate2.innerHTML = data.forecast.forecastday[2].date;
+
+      forecastTemp1.innerHTML =
+        data.forecast.forecastday[1].day.avgtemp_c + "&#176;C";
+      forecastTemp2.innerHTML =
+        data.forecast.forecastday[2].day.avgtemp_c + "&#176;C";
+
+      weather1.innerHTML = data.forecast.forecastday[1].day.condition.text;
+      weather2.innerHTML = data.forecast.forecastday[2].day.condition.text;
+
+      const iconId1 = data.forecast.forecastday[1].day.condition.icon.substr(
+        "//cdn.weatherapi.com/weather/64x64".length
+      );
+      icon1.src = "./icons/" + iconId1;
+
+      const iconId2 = data.forecast.forecastday[2].day.condition.icon.substr(
+        "//cdn.weatherapi.com/weather/64x64".length
+      );
+      icon2.src = "./icons/" + iconId2;
     })
     .catch(() => {
       alert("City not found, please try again");
