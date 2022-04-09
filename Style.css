@@ -192,11 +192,11 @@ td > img {
 }
 
 .forecast-container {
+  position: relative;
   display: grid;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #fafaff;
   text-transform: uppercase;
 }
 
