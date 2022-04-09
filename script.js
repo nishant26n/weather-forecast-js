@@ -18,9 +18,9 @@ const forecastDate1 = document.querySelector(".forecast-date-1");
 const forecastDate2 = document.querySelector(".forecast-date-2");
 const forecastTemp1 = document.querySelector(".forecast-temp-1");
 const forecastTemp2 = document.querySelector(".forecast-temp-2");
-const weather1 = document.querySelector(".weather-1");
-const weather2 = document.querySelector(".weather-2");
+const condition1 = document.querySelector(".condition-1");
 const icon1 = document.querySelector(".icon-1");
+const condition2 = document.querySelector(".condition-2");
 const icon2 = document.querySelector(".icon-2");
 
 // Default value
@@ -163,14 +163,6 @@ function fetchWeatherData() {
       forecastDate1.innerHTML = data.forecast.forecastday[1].date;
       forecastDate2.innerHTML = data.forecast.forecastday[2].date;
 
-      forecastTemp1.innerHTML =
-        data.forecast.forecastday[1].day.avgtemp_c + "&#176;C";
-      forecastTemp2.innerHTML =
-        data.forecast.forecastday[2].day.avgtemp_c + "&#176;C";
-
-      weather1.innerHTML = data.forecast.forecastday[1].day.condition.text;
-      weather2.innerHTML = data.forecast.forecastday[2].day.condition.text;
-
       const iconId1 = data.forecast.forecastday[1].day.condition.icon.substr(
         "//cdn.weatherapi.com/weather/64x64".length
       );
@@ -180,6 +172,14 @@ function fetchWeatherData() {
         "//cdn.weatherapi.com/weather/64x64".length
       );
       icon2.src = "./icons/" + iconId2;
+
+      forecastTemp1.innerHTML =
+        data.forecast.forecastday[1].day.avgtemp_c + "&#176;C";
+      forecastTemp2.innerHTML =
+        data.forecast.forecastday[2].day.avgtemp_c + "&#176;C";
+
+      condition1.innerHTML = data.forecast.forecastday[1].day.condition.text;
+      condition2.innerHTML = data.forecast.forecastday[2].day.condition.text;
     })
     .catch(() => {
       alert("City not found, please try again");
