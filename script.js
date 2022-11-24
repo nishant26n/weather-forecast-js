@@ -24,7 +24,44 @@ const condition2 = document.querySelector(".condition-2");
 const icon2 = document.querySelector(".icon-2");
 
 // Default value
-let cityInput = "Delhi";
+var cityInput = "Delhi";
+
+var notificationTextData = [
+  {
+    id: 1,
+    condition: "Clear",
+    quote:
+      "Wherever you go, no matter what the weather, always bring your own sunshine.",
+  },
+  {
+    id: 2,
+    condition: "Mist",
+    quote:
+      "Sometimes when you lose your way in the fog, you end up in a beautiful place!",
+  },
+  {
+    id: 3,
+    condition: "Sunny",
+    quote: "To be happy, you must be your own sunshine.",
+  },
+  {
+    id: 4,
+    condition: "Fog",
+    quote:
+      "Not how well you see in clear weather but how well you see in foggy weather determines how better you are than others!",
+  },
+  {
+    id: 5,
+    condition: "Rain",
+    quote:
+      "You pray for rain, you gotta deal with the mud too. That's a part of it.",
+  },
+  {
+    id: 6,
+    condition: "Partly cloudy" || "Cloudy",
+    quote: "Cloudy weather can be delightful and beautiful",
+  },
+];
 
 cities.forEach((city) => {
   city.addEventListener("click", (e) => {
@@ -68,6 +105,46 @@ function fetchWeatherData() {
       console.log(data);
       temp.innerHTML = data.current.temp_c + "&#176;C";
       conditionOutput.innerHTML = data.current.condition.text;
+
+      // Notifications
+      var notificationText = notificationTextData.map((notify) => {
+        if (conditionOutput.innerHTML === notify.condition) return notify.quote;
+      });
+
+      form.addEventListener("submit", () => {
+        Notification.requestPermission().then((perm) => {
+          if (perm === "granted") {
+            const notification = new Notification("Weather Notification", {
+              body: notificationText,
+              icon: "./weatherIcon.png",
+              tag: "Welcome Message",
+            });
+
+            notification.addEventListener("error", (e) => {
+              alert("error");
+            });
+          }
+        });
+      });
+
+      let notification;
+      let interval;
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          const leaveDate = new Date();
+          interval = setInterval(() => {
+            notification = new Notification("Stay Safe", {
+              body: `You have been gone for ${Math.round(
+                (new Date() - leaveDate) / 1000
+              )} seconds`,
+              tag: "Come back",
+            });
+          }, 100);
+        } else {
+          if (interval) clearInterval(interval);
+          if (notification) notification.close();
+        }
+      });
 
       const date = data.location.localtime;
       const y = parseInt(date.substr(0, 4));
